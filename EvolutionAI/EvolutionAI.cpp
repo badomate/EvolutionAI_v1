@@ -1,10 +1,12 @@
 #include <iostream>
 #include "Simulation.h"
+
 //https://www.cse.unr.edu/~sushil/class/gas/papers/NEAT.pdf
 
 int main()
 {
-    while (true)
+    
+   while (true)
     {
         srand(time(0));
         Simulation sim;
@@ -13,4 +15,6 @@ int main()
 
     return 0;
 }
+
+
 
