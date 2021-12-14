@@ -1,4 +1,4 @@
-#include "Simulation.h"
+#include "pch.h"
 
 void Simulation::Start(int botCount, int foodCount, int steps, int inNodes, int outNodes, int lives, int width, int height)
 {
@@ -11,10 +11,10 @@ void Simulation::Start(int botCount, int foodCount, int steps, int inNodes, int 
 
 	for (int i = 0; i < botCount; i++)
 	{
-		
+
 		Bot botBeggin = makeBot(lives, inNodes, outNodes, width, height, foods, mutations, i);
 
-		
+
 		bots.insert(botBeggin);
 	}
 }

@@ -1,4 +1,5 @@
-#include "ConnectionGen.h"
+#include "pch.h"
+
 
 ConnectionGen::ConnectionGen(int in, int out, float weight, int innov)
 {

@@ -2,7 +2,7 @@
 #define MUTATION_H
 #include "ConnectionGen.h"
 #include <set>
-#include "ConnectioNode.h"
+#include "ConnectionNode.h"
 #pragma once
 
 

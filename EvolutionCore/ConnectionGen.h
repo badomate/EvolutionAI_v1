@@ -1,6 +1,6 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
-
+#include "pch.h"
 #pragma once
 class ConnectionGen
 {
