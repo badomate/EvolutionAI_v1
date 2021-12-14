@@ -9,5 +9,14 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include "Bot.h"
+#include "ConnectionGen.h"
+#include "ConnectionNode.h"
+#include "Genome.h"
+#include "Layers.h"
+#include "Mutation.h"
+#include "Node.h"
+#include "Position.h"
+#include "Simulation.h"
 
 #endif //PCH_H

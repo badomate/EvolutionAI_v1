@@ -3,7 +3,7 @@
 
 #pragma once
 
-enum Layers {
+enum class Layers {
 	INPUT = 1,
 	OUTPUT = 2,
 	HIDDEN = 3

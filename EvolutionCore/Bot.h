@@ -4,6 +4,7 @@
 
 #include "Position.h"
 #include "Genome.h"
+#include "pch.h"
 using PositionNameSpace::Position;
 
 class Bot {

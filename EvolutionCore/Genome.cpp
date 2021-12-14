@@ -1,4 +1,5 @@
-#include "Genome.h"
+#include "pch.h"
+
 
 
 void Genome::AddHiddenNode(Node node)
@@ -34,7 +35,6 @@ void Genome::AddConnection(int input, int output, float weight, Mutation& mutati
 float Genome::RemoveConnection(int in, int out, Mutation& mutations)
 {
 	int innov = mutations.FindInnov(in, out);
-	float weight;
 	
 	std::set<ConnectionGen>::iterator it;
 	
