@@ -5,6 +5,7 @@
 #include "Position.h"
 #include "Genome.h"
 #include "pch.h"
+#include <math.h>
 using PositionNameSpace::Position;
 
 class Bot {
@@ -43,6 +44,8 @@ public:
 	float readSpeed() { return Speed; };
 	float readBotAngle() { return BotAngle; };
 
+
+	void ForwardPass();
 
 	bool operator<(const Bot& rhs) const noexcept {
 		return this->BotNum < rhs.BotNum;

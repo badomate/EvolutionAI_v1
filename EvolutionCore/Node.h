@@ -9,9 +9,11 @@ class Node
 	
 public: 
 	int NodeNum;
+	mutable double fpValue = 0;
+
 	Layers SensorType;
 	Node(int num, Layers type);
-
+	Node(int num) { NodeNum = num; };
 	int readNum() {
 		return NodeNum;
 	};
@@ -21,6 +23,10 @@ public:
 	bool operator<(const Node& rhs) const noexcept {
 		return this->NodeNum < rhs.NodeNum;
 	};
+
+	bool operator==(const Node& rhs) const noexcept {
+		return this->NodeNum == rhs.NodeNum;
+	}
 };
 
 #endif

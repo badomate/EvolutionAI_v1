@@ -16,7 +16,8 @@ class Mutation
 	void addConnection(int in, int out, int innov);
 	void addNode(int in, int out, int innov);
 public:
-	Mutation(int startetNodes) { NodeCount = startetNodes; };
+	Mutation() {};
+	Mutation(int startetNodes) { NodeCount = startetNodes; InnovCount = 0; };
 	int FindInnov(int in, int out);
 	int FindNodeNum(int in,int out);
 };

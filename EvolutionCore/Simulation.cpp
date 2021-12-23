@@ -1,11 +1,22 @@
 #include "pch.h"
 
-void Simulation::Start(int botCount, int foodCount, int steps, int inNodes, int outNodes, int lives, int width, int height)
+void Simulation::Innit(int botCount, int foodCount, int steps, int inNodes, int outNodes, int lives, int width, int height)
 {
-	std::set<Bot> bots;
-	Mutation mutations = Mutation(inNodes + outNodes);
+	/*
+	
+	inNodes: Lives
+			 Pos_X
+			 Pos_y
+			 ClosestFood_x
+			 ClosestFood_y
+			 ClosestFood_Angle
+			 
+	outNodes: Speed
+			  BotAngle
+			 
+	*/
+	mutations = Mutation(inNodes + outNodes);
 
-	std::set<PositionNameSpace::Position> foods;
 	for (int i = 0; i < foodCount; i++)
 		foods.insert(PositionNameSpace::GenerateRandomPos(width, height));
 
@@ -13,7 +24,6 @@ void Simulation::Start(int botCount, int foodCount, int steps, int inNodes, int 
 	{
 
 		Bot botBeggin = makeBot(lives, inNodes, outNodes, width, height, foods, mutations, i);
-
 
 		bots.insert(botBeggin);
 	}
@@ -25,7 +35,8 @@ Bot Simulation::makeBot(int lives, int inNodes, int outNodes, int width, int hei
 	Genome gen;
 
 	gen.AddNonHiddenLayers(inNodes, outNodes);
-	gen.AddRandomMutation(mutations, 10);
+	for (int j = 0; j < 10; j++)
+		gen.AddRandomMutation(mutations, 10);
 	botBeggin.addGen(gen);
 
 
@@ -44,3 +55,37 @@ Bot Simulation::makeBot(int lives, int inNodes, int outNodes, int width, int hei
 
 	return botBeggin;
 }
+
+void Simulation::doGeneration() {
+	x = 0;
+
+	using namespace std::literals::chrono_literals;
+
+	while (isRunning)
+	{
+		x += 1;
+		for (Bot currentBot: bots)
+		{
+			currentBot.ForwardPass();
+		}
+		std::this_thread::sleep_for(0.2s);
+	}
+}
+
+void Simulation::Start() {
+
+	isRunning = true;
+	std::thread evolve(&Simulation::doGeneration, this);
+
+	evolve.detach();
+
+}
+
+void Simulation::End() {
+	isRunning = false;
+}
+
+void Simulation::Reset() {
+
+}
+
