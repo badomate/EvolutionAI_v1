@@ -16,8 +16,12 @@ class Bot {
 	double ClosestFoodAngle;
 	double Speed;
 	double BotAngle;
+	/*{0 = Up; 1 = Down;} 
+	{0 = Right; 1 = Left}*/
+	int Dir[2];
 
 public:
+	int GenCount = 0;
 	int Lives;
 	bool Alive = true;
 	Genome Gen;

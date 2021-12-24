@@ -20,7 +20,7 @@ void Genome::AddOutputNode(Node node)
 void Genome::AddConnection(int input, int output, Mutation& mutations)
 {
 	int innov = mutations.FindInnov(input, output);
-	float weight = (rand() % 10000) / static_cast<float>(10000);
+	float weight = (rand() % 20000) / static_cast<float>(10000) - 1;
 	ConnectionGenes.insert(ConnectionGen(input, output, weight, innov));
 
 }
@@ -82,7 +82,7 @@ void Genome::AddRandomMutation(Mutation& mutations, int chanceMax)
 {
 		while (true)
 		{
-			int chance = rand() % chanceMax;
+			int chance = rand() % chanceMax ;
 			if (chance != 1)
 			{
 				return;

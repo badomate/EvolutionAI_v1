@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
-
-#include "pch.h"
+#include <stdlib.h>
+#include <pch.h>
 
 using namespace std::literals::chrono_literals;
 
@@ -9,30 +9,31 @@ int main()
 {
 	Simulation sim;
 
-	int botCount = 1000, foodCount = 1500;
+	int botCount = 100, foodCount = 500;
 
 	int steps = 43;
 
-	int inNodes = 6, outNodes = 1;
+	int inNodes = 4, outNodes = 4;
 
-	int lives = 350;
+	int lives = 200;
 
-	int width = 2000, height = 500;
+	int width = 200, height = 50;
 
 	sim.Innit(botCount, foodCount, steps, inNodes, outNodes, lives, width, height);
 
 	sim.Start();
 
+	srand(time(0));
+
 	while (true)
 	{
 		std::cout << "\x1B[3J\x1B[H";
-		std::this_thread::sleep_for(0.2s);
-		auto bots = sim.ReadState();
-		auto food = sim.ReadFood();
+		//std::this_thread::sleep_for(0.1s);
+		auto stats = sim.ReadState();
 
-		std::cout << "botSzam: " << bots.size() << " " << std::endl;
+		std::cout << "botSzam: " << stats.botCount << " foodSzam: " << stats.foodCount << " maxInnov: " << stats.maxInnov << " stepCount: " << stats.stepNum << " maxGenNum: " << stats.maxGenCount << " " << std::endl;
 
-		/*for (int x = 0; x <= width + 2; x++)
+		for (int x = 0; x <= width + 2; x++)
 			std::cout << "=";
 		std::cout << std::endl;
 
@@ -43,9 +44,9 @@ int main()
 			{
 				char out = ' ';
 
-				auto it = bots.begin();
+				auto it = stats.botsPos.begin();
 
-				for (it; it != bots.end(); it++) {
+				for (it; it != stats.botsPos.end(); it++) {
 					if ((*it) == Position(x, y))
 					{
 						out = 'B';
@@ -54,12 +55,12 @@ int main()
 
 				if (out == ' ')
 				{
-					it = food.begin();
+					it = stats.foodPos.begin();
 
-					for (it; it != food.end(); it++) {
+					for (it; it != stats.foodPos.end(); it++) {
 						if ((*it) == Position(x, y))
 						{
-							out = 'F';
+							out = '.';
 						}
 					}
 				}
@@ -69,8 +70,10 @@ int main()
 			std::cout << "|" << std::endl;
 		}
 		for (int x = 0; x <= width + 2; x++)
-			std::cout << "=";*/
+			std::cout << "=";
 
+		if (stats.botCount == 0)
+			sim.End();
 
 	}
 
