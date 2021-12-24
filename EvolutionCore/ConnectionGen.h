@@ -6,8 +6,8 @@ class ConnectionGen
 {
 	float Weight;
 	bool Enabled;
-	int Innov;
 public:
+	int Innov;
 	int NodeIn;
 	int NodeOut;
 	ConnectionGen(int in, int out, float weight, int innov);

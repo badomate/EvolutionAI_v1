@@ -44,7 +44,7 @@ Bot Simulation::makeBot(int lives, int inNodes, int outNodes, int width, int hei
 
 	gen.AddNonHiddenLayers(inNodes, outNodes);
 
-	gen.AddRandomMutation(mutations, 5);
+	gen.AddRandomMutation(mutations, 2);
 	botBeggin.addGen(gen);
 
 
@@ -70,10 +70,12 @@ void Simulation::doGeneration() {
 
 	while (isRunning)
 	{
+		stepCount++;
 
 		std::vector<Bot>::iterator botIt;
 		std::vector<Bot> newBots;
 		std::vector<Position> eatenFoods;
+		std::vector<std::vector<Bot>::iterator> deletedBotIts;
 
 		for (botIt = bots.begin(); botIt != bots.end(); botIt++)
 		{
@@ -81,13 +83,15 @@ void Simulation::doGeneration() {
 			if (!(*botIt).Alive)
 				continue;
 			if ((*botIt).Lives == 0)
-				(*botIt).Alive = false;
+			{
+				//(*botIt).Alive = false;
+				deletedBotIts.push_back(botIt);
+			}
 
 			(*botIt).ForwardPass();
 			(*botIt).Update(width, height, 0);
 			Position closestFood = (*botIt).findClosestFood(foods);
 			(*botIt).addClosestFood(closestFood);
-
 
 			if (!(*botIt).DidEat())
 			{
@@ -96,12 +100,19 @@ void Simulation::doGeneration() {
 				continue;
 			}
 
+			(*botIt).Alive = false;
+
 			Position newFood = PositionNameSpace::GenerateRandomPos(width, height);
 			foods.insert(newFood);
 
 			eatenFoods.push_back(closestFood);
 
 			Bot newBot = Bot(this->starterLives);
+			newBot.GenCount = (*botIt).GenCount + 1;
+
+			if (newBot.GenCount > this->maxGenNum)
+				maxGenNum = newBot.GenCount;
+
 			newBot.addGen((*botIt).Gen);
 			newBot.addPos((*botIt).readPos());
 			newBot.addSpeed((*botIt).readSpeed());
@@ -115,7 +126,7 @@ void Simulation::doGeneration() {
 			double angle = PositionNameSpace::AngleCalc(closestFood, newBot.readPos());
 			newBot.addClosestFoodAngle(angle);
 
-			newBot.Gen.AddRandomMutation(mutations, 5);
+			newBot.Gen.AddRandomMutation(mutations, 2);
 
 			newBots.push_back(newBot);
 
@@ -128,7 +139,18 @@ void Simulation::doGeneration() {
 			if (foods.find(eatenFoods[i]) != foods.end())
 				foods.erase(eatenFoods[i]);
 
-		//std::this_thread::sleep_for(0.01s);
+
+		while (bots.size() != 0)
+		{
+
+			if (bots[0].Alive)
+				break;
+			bots.erase(bots.begin());
+			if (bots.size() == 1)
+				break;
+		}
+
+		std::this_thread::sleep_for(1s);
 	}
 }
 
@@ -148,12 +170,24 @@ void Simulation::Reset() {
 
 }
 
-std::set<Position> Simulation::ReadState()
+Stats Simulation::ReadState()
 {
-	std::set<Position> pos;
+	Stats stat;
+
 	for (int i = 0; i < bots.size(); i++)
 		if (bots[i].Alive)
-			pos.insert(Position(round(bots[i].readPos().X), round(bots[i].readPos().Y)));
+			stat.botsPos.insert(Position(round(bots[i].readPos().X), round(bots[i].readPos().Y)));
 
-	return pos;
+	stat.foodPos = foods;
+
+	stat.botCount = bots.size();
+
+	stat.foodCount = foods.size();
+
+	stat.maxInnov = mutations.ReadInnov();
+
+	stat.stepNum = stepCount;
+
+	stat.maxGenCount = maxGenNum;
+	return stat;
 }

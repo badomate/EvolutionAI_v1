@@ -18,6 +18,7 @@ class Mutation
 public:
 	Mutation() {};
 	Mutation(int startetNodes) { NodeCount = startetNodes; InnovCount = 0; };
+	int ReadInnov() { return InnovCount; };
 	int FindInnov(int in, int out);
 	int FindNodeNum(int in,int out);
 };

@@ -5,10 +5,11 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include "Stats.h"
 
 class Simulation {
 
-	int steps;
+	int steps, stepCount = 0;
 
 	int inNodesCount, outNodesCount;
 
@@ -16,6 +17,7 @@ class Simulation {
 
 	int width, height;
 
+	int maxGenNum = 0;
 	std::vector<Bot> bots;
 	Mutation mutations;
 	std::set<Position> foods;
@@ -32,8 +34,7 @@ public:
 	void End();
 	void Reset();
 
-	std::set<Position> ReadState();
-	std::set<Position> ReadFood() { return foods; };
+	Stats ReadState();
 		
 };
 #endif

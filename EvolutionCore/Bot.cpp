@@ -41,29 +41,33 @@ void Bot::ForwardPass()
 			 ClosestFood_y
 			 ClosestFood_Angle
 
-	outNodes: BotAngle
+	outNodes: Up
+			  Down
+			  Right
+			  Left
 
 	*/
 
 	std::set<Node>::iterator it = Gen.InputNodes.begin();
 
-	(*it).fpValue = Lives;
+	/*(*it).fpValue = Lives;
+
+	it++;*/
+	(*it).fpValue = ClosestFood.X - Pos.X;
 
 	it++;
-	(*it).fpValue = Pos.X;
+	(*it).fpValue = ClosestFood.Y - Pos.Y;
 
-	it++;
-	(*it).fpValue = Pos.Y;
-
-	it++;
+	/*it++;
 	(*it).fpValue = ClosestFood.X;
 
 	it++;
 	(*it).fpValue = ClosestFood.Y;
 
-	it++;
-	(*it).fpValue = ClosestFoodAngle;
-	double last = BotAngle;
+	it++;*/
+	/*(*it).fpValue = ClosestFoodAngle;*/
+
+
 	for (ConnectionGen con : Gen.ConnectionGenes)
 	{
 		std::set<Node>::iterator itOut;
@@ -79,12 +83,22 @@ void Bot::ForwardPass()
 			itIn = Gen.InputNodes.find(Node(con.NodeIn));
 
 		itOut->fpValue += sigmoid(itIn->fpValue) * con.ReadWeight();
-		last = itOut->fpValue;
 	}
 
-	BotAngle = last;
+	double output[4] = { 0 };
+	int c = 0;
+	for (auto it = Gen.OutputNodes.begin(); it != Gen.OutputNodes.end(); it++)
+	{
+		output[c] = (*it).fpValue;
+		c++;
+	}
 
-	//std::cout << last << std::endl;
+	Dir[0] = (output[0]  >= output[1]) ? 0 : 1;
+	Dir[0] = (output[2] >= output[3]) ? 0 : 1;
+
+	
+	
+
 }
 
 
@@ -102,26 +116,17 @@ void Bot::Update(int maxX, int maxY, int c)
 			int y = 0;
 		else
 			Pos.Y += sin(BotAngle);*/
-
-	double leendoX = Pos.X + cos(BotAngle);
-	double leendoY = Pos.Y + sin(BotAngle);
+	int leendoX = this->Pos.X;
+	int leendoY = this->Pos.Y;
+	leendoX += (Dir[1] == 0) ? 1 : -1;
+	leendoY += (Dir[0] == 0) ? 1 : -1;
 
 	if (0. < leendoX && leendoX < (double)maxX)
 		Pos.X = leendoX;
-	else if(c == 0)
-	{
-		BotAngle *= -1; 
-		Update(maxX, maxY, 1);
-	}
 
 	if (0. < leendoY && leendoY < (double)maxY)
 		Pos.Y = leendoY;
-	else if(c == 0)
-	{
-		BotAngle *= -1;
-		Update(maxX, maxY, 1);
-	}
-		
+
 
 	//std::cout << Pos.X << std::endl;
 }

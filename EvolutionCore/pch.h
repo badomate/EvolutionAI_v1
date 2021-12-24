@@ -18,5 +18,6 @@
 #include "Node.h"
 #include "Position.h"
 #include "Simulation.h"
+#include "Stats.h"
 
 #endif //PCH_H

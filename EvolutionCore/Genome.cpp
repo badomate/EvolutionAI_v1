@@ -20,7 +20,7 @@ void Genome::AddOutputNode(Node node)
 void Genome::AddConnection(int input, int output, Mutation& mutations)
 {
 	int innov = mutations.FindInnov(input, output);
-	float weight = (rand() % 10000) / static_cast<float>(10000);
+	float weight = (rand() % 20000) / static_cast<float>(10000) - 1;
 	ConnectionGenes.insert(ConnectionGen(input, output, weight, innov));
 
 }
@@ -35,7 +35,6 @@ void Genome::AddConnection(int input, int output, float weight, Mutation& mutati
 float Genome::RemoveConnection(int in, int out, Mutation& mutations)
 {
 	int innov = mutations.FindInnov(in, out);
-	
 	std::set<ConnectionGen>::iterator it;
 	
 
@@ -43,12 +42,16 @@ float Genome::RemoveConnection(int in, int out, Mutation& mutations)
 	{
 		if (ConnectionGenes.find(*it) != ConnectionGenes.end())
 		{
-			auto helper = *it;
+			if ((*it).Innov == innov)
+			{
+				auto helper = *it;
+				helper.Disable();
+				ConnectionGenes.erase(*it);
+				ConnectionGenes.insert(helper);
+				return helper.ReadWeight();
+			}
 
-			helper.Disable();
-			ConnectionGenes.erase(*it);
-			ConnectionGenes.insert(helper);
-			return helper.ReadWeight();
+
 		}
 	}
 
@@ -82,7 +85,7 @@ void Genome::AddRandomMutation(Mutation& mutations, int chanceMax)
 {
 		while (true)
 		{
-			int chance = rand() % chanceMax;
+			int chance = rand() % chanceMax ;
 			if (chance != 1)
 			{
 				return;
