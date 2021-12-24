@@ -9,7 +9,6 @@
 using PositionNameSpace::Position;
 
 class Bot {
-	int Lives;
 	Position Pos;
 	Position ClosestBot;
 	double ClosestBotAngle;
@@ -17,11 +16,12 @@ class Bot {
 	double ClosestFoodAngle;
 	double Speed;
 	double BotAngle;
-	int BotNum;
 
 public:
+	int Lives;
+	bool Alive = true;
 	Genome Gen;
-	Bot(int lives, int botnum);
+	Bot(int lives);
 	void addGen(Genome gen) { this->Gen = gen; };
 	void addPos(Position pos) { Pos = pos; };
 	void addClosestFood(Position food) { ClosestFood = food; };
@@ -44,12 +44,10 @@ public:
 	float readSpeed() { return Speed; };
 	float readBotAngle() { return BotAngle; };
 
-
+	void Update(int maxX, int maxY, int c);
 	void ForwardPass();
 
-	bool operator<(const Bot& rhs) const noexcept {
-		return this->BotNum < rhs.BotNum;
-	};
+	bool DidEat();
 };
 
 #endif

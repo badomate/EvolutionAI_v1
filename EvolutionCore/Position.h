@@ -11,12 +11,16 @@ constexpr auto PI = 3.1415926535897932384626433832795028841971693993751058209749
 namespace PositionNameSpace {
 	class Position {
 	public:
-		int X, Y;
+		double X, Y;
 		Position() {};
 		Position(int, int);
 
 		bool operator<(const Position& rhs) const noexcept {
 			return this->X < rhs.X;
+		}
+
+		bool operator==(const Position& rhs) const noexcept {
+			return this->X == rhs.X && this->Y == rhs.Y;
 		};
 		
 	};

@@ -4,16 +4,25 @@
 #include "Bot.h"
 #include <iostream>
 #include <thread>
-
+#include <vector>
 
 class Simulation {
 
-	std::set<Bot> bots;
+	int steps;
+
+	int inNodesCount, outNodesCount;
+
+	int starterLives;
+
+	int width, height;
+
+	std::vector<Bot> bots;
 	Mutation mutations;
 	std::set<Position> foods;
+
 	bool isRunning;
-	int x = 0;
-	Bot makeBot(int lives, int inNodes, int outNodes, int width, int height, std::set<PositionNameSpace::Position>& foods, Mutation& mutations, int botNum);
+
+	Bot makeBot(int lives, int inNodes, int outNodes, int width, int height, std::set<PositionNameSpace::Position>& foods, Mutation& mutations);
 	void doGeneration();
 public:
 	Simulation() {};
@@ -23,10 +32,7 @@ public:
 	void End();
 	void Reset();
 
-	int read() { return x; };
-
-	std::set<Bot> ReadState() { return bots; };
-	Mutation ReadMutations() { return mutations; };
+	std::set<Position> ReadState();
 	std::set<Position> ReadFood() { return foods; };
 		
 };
