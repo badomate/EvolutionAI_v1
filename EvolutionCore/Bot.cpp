@@ -64,7 +64,7 @@ void Bot::ForwardPass()
 	it++;
 	(*it).fpValue = ClosestFood.Y;
 
-	it++;*/
+	it++;
 	/*(*it).fpValue = ClosestFoodAngle;*/
 
 
