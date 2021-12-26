@@ -4,7 +4,7 @@
 #include <pch.h>
 
 using namespace std::literals::chrono_literals;
-//mikro szervizek + dockerek
+
 int main()
 {
 	Simulation sim;
@@ -13,7 +13,7 @@ int main()
 
 	int steps = 43;
 
-	int inNodes = 2, outNodes = 4;
+	int inNodes = 4, outNodes = 4;
 
 	int lives = 200;
 
@@ -24,18 +24,7 @@ int main()
 	sim.Start();
 
 	srand(time(0));
-	/*
-	
-	input: 4
-	output: 4
-	hidden: 1
-	
-	connection:
-		1->5 
-		2->5
-		2->10
-		10->5
-	*/
+
 	while (true)
 	{
 		std::cout << "\x1B[3J\x1B[H";
